@@ -16,7 +16,7 @@ export function useTestHistory() {
       if (stored) {
         const parsed = JSON.parse(stored);
         // Convert date strings back to Date objects
-        const results = parsed.map((result: any) => ({
+        const results = parsed.map((result: SavedTestResult & { createdAt: string; testRun: TestRun & { completedAt: string } }) => ({
           ...result,
           createdAt: new Date(result.createdAt),
           testRun: {

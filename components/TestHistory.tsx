@@ -147,7 +147,7 @@ export default function TestHistory({ onViewResult }: TestHistoryProps) {
           </div>
           <select 
             value={sortBy} 
-            onChange={(e) => setSortBy(e.target.value as any)}
+            onChange={(e) => setSortBy(e.target.value as 'date' | 'score' | 'pack' | 'project')}
             className="px-3 py-2 border rounded-md bg-background"
           >
             <option value="date">Sort by Date</option>
