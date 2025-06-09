@@ -15,11 +15,11 @@ export async function POST(request: NextRequest) {
     }
 
     // Generate text report
-    const hasCriticalFail = testRun.results.some(r => r.critical && !r.passed);
-    const verdict = hasCriticalFail ? 'Fail (critical)' : testRun.passed ? 'Bid' : 'Pass';
-    const summary = `Project ${testRun.projectId.slice(0, 8)}... scored ${testRun.score}/100. ${
-      hasCriticalFail ? 'Critical failure - immediate disqualification.' :
-      testRun.passed ? 'Recommended for bidding.' : 'Does not meet minimum requirements.'
+    const summary = `Project ${testRun.projectId.slice(0, 8)}... scored ${testRun.finalScore}% (base: ${testRun.baseScore}%). ${
+      testRun.hasCriticalFail ? 'Critical failure detected.' :
+      testRun.verdict === 'Pass' ? 'Excellent project - no concerns.' :
+      testRun.verdict === 'Bid' ? 'Recommended for bidding with considerations.' :
+      'Does not meet minimum requirements.'
     }`;
     
     // Note: Keeping report variable commented out as it's not currently used but may be needed for future text-based reports
@@ -53,8 +53,9 @@ export async function POST(request: NextRequest) {
         <p><strong>Pack:</strong> ${pack.name}</p>
         <p><strong>Project:</strong> ${testRun.projectId}</p>
         <p><strong>Date:</strong> ${new Date(testRun.completedAt).toLocaleDateString()}</p>
-        <p><strong>Score:</strong> ${testRun.score}/100</p>
-        <p><strong>Verdict:</strong> ${verdict}</p>
+        <p><strong>Final Score:</strong> ${testRun.finalScore}%</p>
+        <p><strong>Base Score:</strong> ${testRun.baseScore}%</p>
+        <p><strong>Verdict:</strong> ${testRun.verdict}</p>
         <p>${summary}</p>
     </div>
 
