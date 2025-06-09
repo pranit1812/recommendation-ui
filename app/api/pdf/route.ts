@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { TestRun, QuestionPack } from '@/lib/types';
-import puppeteer from 'puppeteer';
 
 export async function POST(request: NextRequest) {
   try {
@@ -85,33 +84,12 @@ export async function POST(request: NextRequest) {
 </body>
 </html>`;
 
-    // Generate PDF using Puppeteer
-    const browser = await puppeteer.launch({
-      headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
-    });
-    
-    const page = await browser.newPage();
-    await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
-    
-    const pdfBuffer = await page.pdf({
-      format: 'A4',
-      printBackground: true,
-      margin: {
-        top: '20mm',
-        right: '20mm',
-        bottom: '20mm',
-        left: '20mm'
-      }
-    });
-    
-    await browser.close();
-
-    return new NextResponse(pdfBuffer, {
+    // Return HTML content for client-side PDF generation
+    return new NextResponse(htmlContent, {
       status: 200,
       headers: {
-        'Content-Type': 'application/pdf',
-        'Content-Disposition': `attachment; filename="test-results-${testRun.id}.pdf"`,
+        'Content-Type': 'text/html',
+        'X-Filename': `test-results-${testRun.id}.pdf`,
       },
     });
 

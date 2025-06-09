@@ -151,15 +151,34 @@ function TestRunnerContent() {
         throw new Error('Failed to generate PDF');
       }
       
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `test-results-${testRun.id}.pdf`;
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
+      const htmlContent = await response.text();
+      const filename = response.headers.get('X-Filename') || `test-results-${testRun.id}.pdf`;
+      
+      // Create a new window/tab and print to PDF
+      const printWindow = window.open('', '_blank');
+      if (printWindow) {
+        printWindow.document.write(htmlContent);
+        printWindow.document.close();
+        
+        // Wait for content to load then trigger print
+        printWindow.onload = () => {
+          setTimeout(() => {
+            printWindow.print();
+          }, 100);
+        };
+      } else {
+        // Fallback: download as HTML if popup blocked
+        const blob = new Blob([htmlContent], { type: 'text/html' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename.replace('.pdf', '.html');
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+        alert('PDF generation not available. Downloaded HTML file instead. Use your browser\'s print function to save as PDF.');
+      }
       
     } catch (error) {
       console.error('PDF download failed:', error);
