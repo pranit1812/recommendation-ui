@@ -7,9 +7,7 @@ import {
   FileText, 
   Plus, 
   Play, 
-  Settings, 
-  Database,
-  History
+  Settings
 } from 'lucide-react';
 
 const navigationItems = [

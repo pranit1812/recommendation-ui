@@ -23,12 +23,12 @@ export default function Breadcrumb() {
   const segments = pathname.split('/').filter(Boolean);
   
   // Build breadcrumb items
-  const breadcrumbItems: Array<{ name: string; href: string; icon?: React.ComponentType<any> }> = [
+  const breadcrumbItems: Array<{ name: string; href: string; icon?: React.ComponentType<{className?: string}> }> = [
     { name: 'Dashboard', href: '/', icon: Home }
   ];
 
   let currentPath = '';
-  segments.forEach((segment, index) => {
+  segments.forEach((segment) => {
     currentPath += `/${segment}`;
     const name = pathMapping[currentPath] || segment.charAt(0).toUpperCase() + segment.slice(1);
     
