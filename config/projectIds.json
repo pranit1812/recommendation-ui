@@ -1,0 +1,29 @@
+{
+  "projects": [
+    {
+      "id": "1a30645c-7790-4ce8-a03e-04bd87ba86d5",
+      "name": "Project Alpha",
+      "description": "Sample construction project for testing"
+    },
+    {
+      "id": "10da321d-31a7-4c6b-8962-0275a279fc9f",
+      "name": "Project Beta", 
+      "description": "Commercial building project"
+    },
+    {
+      "id": "a2f9dbda-8c8a-45a1-9026-0e6cf8422a9d",
+      "name": "Project Gamma",
+      "description": "Residential development project"
+    },
+    {
+      "id": "2b8b6608-e2bc-4589-a430-cec46cf64911",
+      "name": "Project Delta",
+      "description": "Infrastructure project"
+    },
+    {
+      "id": "8455ecc2-facc-4a7e-8e83-0d137a662705",
+      "name": "Project Epsilon",
+      "description": "Mixed-use development"
+    }
+  ]
+} 
