@@ -7,13 +7,15 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { useCatalogStore } from '@/store/catalog';
 import { usePacksStore } from '@/store/packs';
 import { useProjects } from '@/lib/useProjects';
-import { FileText, Settings, Play, Plus, Database } from 'lucide-react';
+import { useTestHistory } from '@/lib/useTestHistory';
+import { FileText, Settings, Play, Plus, Database, History } from 'lucide-react';
 
 export default function Dashboard() {
   const [mounted, setMounted] = useState(false);
   const { catalog, loadCatalogFromUrl, lastUpdated } = useCatalogStore();
   const { packs, loadFromStorage: loadPacks } = usePacksStore();
   const { projects, isLoaded } = useProjects();
+  const { savedResults } = useTestHistory();
 
   useEffect(() => {
     setMounted(true);
@@ -43,7 +45,7 @@ export default function Dashboard() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-8">
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -134,6 +136,29 @@ export default function Dashboard() {
               <Link href="/run">
                 <Play className="mr-2 h-4 w-4" />
                 Run Tests
+              </Link>
+            </Button>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <History className="h-5 w-5" />
+              Test History
+            </CardTitle>
+            <CardDescription>
+              {savedResults.length} test results saved
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground mb-4">
+              View and manage saved test results
+            </p>
+            <Button asChild variant="outline" className="w-full">
+              <Link href="/run?tab=history">
+                <History className="mr-2 h-4 w-4" />
+                View History
               </Link>
             </Button>
           </CardContent>

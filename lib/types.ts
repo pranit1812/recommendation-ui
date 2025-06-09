@@ -57,9 +57,21 @@ export interface TestRun {
   packId: string;
   projectId: string;
   results: TestResult[];
-  score: number;
-  passed: boolean;
+  finalScore: number;
+  baseScore: number;
+  hasCriticalFail: boolean;
+  verdict: 'Fail (critical)' | 'Bid' | 'Pass';
   completedAt: Date;
+}
+
+export interface SavedTestResult {
+  id: string;                    // unique identifier for this saved result
+  packId: string;               // which question pack was used
+  packName: string;             // name of the pack for display
+  projectId: string;            // which project was tested
+  projectName: string;          // human readable project name
+  testRun: TestRun;            // the complete test run data
+  createdAt: Date;             // when this test was saved
 }
 
 // Moved to config/demoProjects.ts 

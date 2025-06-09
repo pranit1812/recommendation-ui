@@ -34,13 +34,13 @@ export function calculateScore(results: TestResult[]): {
   finalScore: number; 
   baseScore: number; 
   hasCriticalFail: boolean; 
-  verdict: string; 
+  verdict: 'Fail (critical)' | 'Bid' | 'Pass'; 
 } {
   if (results.length === 0) return { 
     finalScore: 0, 
     baseScore: 0, 
     hasCriticalFail: false, 
-    verdict: 'No questions' 
+    verdict: 'Fail (critical)' 
   };
   
   // Check for critical failures
@@ -53,8 +53,8 @@ export function calculateScore(results: TestResult[]): {
   
   // Final score and verdict
   const finalScore = hasCriticalFail ? 0 : baseScore;
-  const verdict = hasCriticalFail ? 'Fail (critical)' :
-                  baseScore >= 70 ? 'Bid' : 'Pass';
+  const verdict: 'Fail (critical)' | 'Bid' | 'Pass' = hasCriticalFail ? 'Fail (critical)' :
+                  baseScore >= 70 ? 'Pass' : 'Bid';
   
   return { finalScore, baseScore, hasCriticalFail, verdict };
 } 
