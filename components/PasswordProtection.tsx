@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Lock, Eye, EyeOff } from 'lucide-react';
+import Navigation from '@/components/Navigation';
+import Breadcrumb from '@/components/Breadcrumb';
 
 const CORRECT_PASSWORD = 'Test1111!';
 const STORAGE_KEY = 'bidboard-auth';
@@ -121,22 +123,22 @@ export default function PasswordProtection({ children }: PasswordProtectionProps
     );
   }
 
-  // Show authenticated content with logout option
+  // Show authenticated content with navigation and logout option
   return (
     <div className="min-h-screen bg-background">
       {/* Header with logout */}
       <div className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container mx-auto px-6 py-3">
+        <div className="container mx-auto px-6 py-2">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Lock className="h-5 w-5 text-green-600" />
-              <span className="text-sm font-medium">BidBoard Test Harness</span>
+              <Lock className="h-4 w-4 text-green-600" />
+              <span className="text-xs font-medium text-green-600">Authenticated</span>
             </div>
             <Button 
               onClick={handleLogout} 
               variant="outline" 
               size="sm"
-              className="text-xs"
+              className="text-xs h-7"
             >
               Logout
             </Button>
@@ -144,8 +146,14 @@ export default function PasswordProtection({ children }: PasswordProtectionProps
         </div>
       </div>
       
+      {/* Navigation */}
+      <Navigation />
+      
+      {/* Breadcrumb */}
+      <Breadcrumb />
+      
       {/* Main content */}
-      <div className="pb-4">
+      <div>
         {children}
       </div>
     </div>
