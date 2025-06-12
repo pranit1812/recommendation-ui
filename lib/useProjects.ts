@@ -40,10 +40,25 @@ export function useProjects() {
   // Get array of project IDs for compatibility with existing code
   const getProjectIds = () => projects.map(p => p.id);
 
+  // Add a new project
+  const addProject = (id: string, name: string, description = '') => {
+    const newProject: Project = { id, name, description };
+    const updatedProjects = [...projects, newProject];
+    updateProjects(updatedProjects);
+  };
+
+  // Remove a project by ID
+  const removeProject = (id: string) => {
+    const updatedProjects = projects.filter(p => p.id !== id);
+    updateProjects(updatedProjects);
+  };
+
   return {
     projects,
     updateProjects,
     getProjectIds,
+    addProject,
+    removeProject,
     isLoaded
   };
 } 

@@ -7,7 +7,8 @@ import {
   FileText, 
   Plus, 
   Play, 
-  Settings
+  Settings,
+  MessageCircle
 } from 'lucide-react';
 
 const navigationItems = [
@@ -15,6 +16,11 @@ const navigationItems = [
     name: 'Dashboard',
     href: '/',
     icon: Home,
+  },
+  {
+    name: 'Chat',
+    href: '/chat',
+    icon: MessageCircle,
   },
   {
     name: 'Create Pack',

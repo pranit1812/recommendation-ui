@@ -22,7 +22,7 @@ export function buildPrompt(question: Question): string {
 
 Please provide specific document references with page numbers and section numbers where applicable.
 
-Please provide a clear, natural response fit for a chatbot widget to the question. Only provide explanation and sources for up to a maximum of 2 of the BEST, MOST RELEVANT sources. Do not say things like Introduction to Site Plans or provide multiple sections. One concise response. After your response, include source metadata in the following format for each source used:
+Before giving any answer, explain your chain of though and reasoning, how did you come to your answer.Please provide a clear, natural response fit for a chatbot widget to the question. Only provide explanation and sources for up to a maximum of 2 of the BEST, MOST RELEVANT sources. Do not say things like Introduction to Site Plans . After your response, include source metadata in the following format for each source used:
 
 \`\`\`metadata
 filename: [filename] human_readable: [human readable] page_num: [page num] sheet_number: [sheet_number] section: [section reference if applicable]
@@ -52,6 +52,26 @@ export async function queryGraphRAG(projectId: string, query: string): Promise<s
   
   const data = await response.json();
   return data.response || data.answer || '';
+}
+
+export function buildChatPrompt(query: string): string {
+  return `${query}
+
+Please provide specific document references with page numbers and section numbers where applicable.
+
+Before giving any answer, explain your chain of though and reasoning, how did you come to your answer.Please provide a clear, natural response fit for a chatbot widget to the question. Only provide explanation and sources for up to a maximum of 2 of the BEST, MOST RELEVANT sources. Do not say things like Introduction to Site Plans . After your response, include source metadata in the following format for each source used:
+
+\`\`\`metadata
+filename: [filename] human_readable: [human readable] page_num: [page num] sheet_number: [sheet_number] section: [section reference if applicable]
+\`\`\`
+
+Ensure each source has at least filename and human_readable fields but try to provide as much source information as possible.`;
+}
+
+export async function queryGraphRAGForChat(projectId: string, query: string): Promise<string> {
+  // Use the enhanced prompt that requests detailed metadata like question packs
+  const enhancedQuery = buildChatPrompt(query);
+  return queryGraphRAG(projectId, enhancedQuery);
 }
 
 // Helper function to convert technical filenames to human-readable names
@@ -132,8 +152,6 @@ export function parseSources(response: string): { cleanResponse: string; sources
       sheetNumber: sheetNumber ? parseInt(sheetNumber) || 0 : 0,
       section: section || ''
     };
-
-
 
     if (source.filename && source.filename !== 'Unknown Document') {
       sources.push(source);

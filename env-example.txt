@@ -1,0 +1,23 @@
+# Environment Configuration for Recommendation UI
+
+# GraphRAG API Configuration
+# The URL for the GraphRAG query endpoint used for document chat functionality
+NEXT_PUBLIC_GRAPH_RAG=https://query-mod-dev.hyperwaterbids.com/query
+
+# HyperWaterBids API Configuration
+# The base URL for the HyperWaterBids API used for fetching ITB projects
+NEXT_PUBLIC_HWB_API_URL=https://dev-api.hyperwaterbids.com/api
+
+# AWS S3 Configuration
+# The S3 bucket name where ITB documents are stored
+NEXT_PUBLIC_CHAT_SOURCE_BUCKET=itb-store-dev
+
+# Authentication Configuration (if needed)
+# Add any authentication keys or tokens here
+# AUTH_SECRET=your-auth-secret-here
+# AUTH_TOKEN=your-auth-token-here
+
+# Development Configuration
+# Add any development-specific settings here
+# NODE_ENV=development
+# DEBUG=true 

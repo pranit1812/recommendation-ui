@@ -6,6 +6,7 @@ import { ChevronRight, Home } from 'lucide-react';
 
 const pathMapping: Record<string, string> = {
   '/': 'Dashboard',
+  '/chat': 'Document Chat',
   '/pack/new': 'Create Question Pack',
   '/run': 'Test Runner',
   '/admin/catalog': 'Catalog Management',
