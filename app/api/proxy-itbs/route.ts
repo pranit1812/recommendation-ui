@@ -1,9 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const API_BASE_URL = 'https://dev-api.hyperwaterbids.com/api';
+function getApiBaseUrl(): string | null {
+  const url = process.env.NEXT_PUBLIC_HWB_API_URL;
+  return url ? url.replace(/\/$/, '') : null;
+}
 
 export async function GET(request: NextRequest) {
   try {
+    const API_BASE_URL = getApiBaseUrl();
+    if (!API_BASE_URL) {
+      return NextResponse.json(
+        { error: 'NEXT_PUBLIC_HWB_API_URL is not configured' },
+        { status: 500 }
+      );
+    }
+
     // Get query parameters from the request
     const { searchParams } = new URL(request.url);
     const queryString = searchParams.toString();

@@ -8,7 +8,6 @@ import { Lock, Eye, EyeOff } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import Breadcrumb from '@/components/Breadcrumb';
 
-const CORRECT_PASSWORD = 'Test1111!';
 const STORAGE_KEY = 'bidboard-auth';
 
 interface PasswordProtectionProps {
@@ -31,15 +30,32 @@ export default function PasswordProtection({ children }: PasswordProtectionProps
     setIsLoading(false);
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (password === CORRECT_PASSWORD) {
-      setIsAuthenticated(true);
-      setError('');
-      localStorage.setItem(STORAGE_KEY, 'authenticated');
-    } else {
-      setError('Incorrect password. Please try again.');
+    setError('');
+
+    try {
+      const response = await fetch('/api/auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password }),
+      });
+
+      if (response.ok) {
+        setIsAuthenticated(true);
+        localStorage.setItem(STORAGE_KEY, 'authenticated');
+        return;
+      }
+
+      const data = await response.json().catch(() => ({}));
+      setError(
+        typeof data.error === 'string'
+          ? data.error
+          : 'Incorrect password. Please try again.'
+      );
+      setPassword('');
+    } catch {
+      setError('Unable to verify the password. Please try again.');
       setPassword('');
     }
   };
