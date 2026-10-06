@@ -4,7 +4,7 @@ Excel-driven prototype for testing project requirements using GraphRAG integrati
 
 ## 🔐 Access
 
-The application is password-protected. Use password: **Test1111!**
+The application is password-protected. Set `APP_PASSWORD` in the environment (see Environment Variables below). The login form sends the password to the server, which compares it with that variable. The password is not stored in the repository.
 
 ## 🚀 Features
 
@@ -39,7 +39,7 @@ npm run build
 
 ## 📱 Usage
 
-1. **Access**: Enter password `Test1111!`
+1. **Access**: Enter the password configured in `APP_PASSWORD`
 2. **Catalog**: Upload Excel files via Admin → Catalog
 3. **Projects**: Manage ITB IDs via Admin → Projects
 4. **Create Packs**: Use Question Pack Wizard to create test suites
@@ -55,9 +55,20 @@ npm run build
 Set in Vercel dashboard:
 
 ```bash
-NEXT_PUBLIC_GRAPH_RAG=https://query-mod-dev.hyperwaterbids.com/query
-NEXT_PUBLIC_CHAT_SOURCE_BUCKET=itb-store-dev
+APP_PASSWORD=your-password-here
+NEXT_PUBLIC_GRAPH_RAG=https://example.com/query
+NEXT_PUBLIC_HWB_API_URL=https://example.com/api
+NEXT_PUBLIC_CHAT_SOURCE_BUCKET=your-s3-bucket
 ```
+
+| Variable | Purpose |
+| --- | --- |
+| `APP_PASSWORD` | Password checked by `POST /api/auth`. Required for login. |
+| `NEXT_PUBLIC_GRAPH_RAG` | GraphRAG query endpoint used by the test runner and chat. |
+| `NEXT_PUBLIC_HWB_API_URL` | Base URL for the ITB projects API (proxied by `/api/proxy-itbs`). |
+| `NEXT_PUBLIC_CHAT_SOURCE_BUCKET` | S3 bucket name used when building PDF source links. |
+
+Copy `env-example.txt` to `.env.local` and replace the placeholders. `.env` and `.env*.local` are gitignored.
 
 ### Deployment Steps
 
@@ -68,7 +79,7 @@ NEXT_PUBLIC_CHAT_SOURCE_BUCKET=itb-store-dev
 
 ## 📋 Technical Specifications
 
-- **Password**: Hardcoded as `Test1111!` (client-side protection)
+- **Password**: Read from the `APP_PASSWORD` environment variable and verified on the server
 - **Sharing**: Anyone with password can add/edit/delete everything
 - **Persistence**: All data stored in browser localStorage
 - **No Users**: No user authentication system - shared workspace

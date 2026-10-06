@@ -53,7 +53,7 @@ This feature adds two key capabilities to the BidBoard Test Harness:
 
 ### API Project Management (FR-API)
 
-**FR-API-01**: The system must fetch project data from `https://dev-api.hyperwaterbids.com/api/itbs` endpoint
+**FR-API-01**: The system must fetch project data from the configured ITB API endpoint (`NEXT_PUBLIC_HWB_API_URL` + `/itbs`)
 **FR-API-02**: The system must display project names instead of UUIDs in all project selection interfaces  
 **FR-API-03**: The system must show document count for each project when available
 **FR-API-04**: The system must add an "API Projects" section to the existing Admin → Projects page

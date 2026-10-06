@@ -32,7 +32,10 @@ Ensure each source has at least filename and human_readable fields but try to pr
 }
 
 export async function queryGraphRAG(projectId: string, query: string): Promise<string> {
-  const endpoint = process.env.NEXT_PUBLIC_GRAPH_RAG || 'https://query-mod-dev.hyperwaterbids.com/query';
+  const endpoint = process.env.NEXT_PUBLIC_GRAPH_RAG;
+  if (!endpoint) {
+    throw new Error('NEXT_PUBLIC_GRAPH_RAG is not configured');
+  }
   
   const response = await fetch(endpoint, {
     method: 'POST',
